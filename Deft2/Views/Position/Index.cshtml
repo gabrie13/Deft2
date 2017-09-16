@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Deft2.Models.PositionViewModel>
+
+@{
+    ViewBag.Title = "Position";
+}
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionTitle)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PositionId })
+                </td>
+            </tr>
+        </tbody>
+            }
+</table>

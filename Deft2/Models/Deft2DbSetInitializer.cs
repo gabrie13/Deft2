@@ -28,6 +28,7 @@ namespace Deft2.Models
             //  DB.POSITION END
 
             //  DB.LOCATION SEEDED
+            context.Locations.Add(new Location { LocationName = "Corporate Office", Phone = "801-971-2554", Email = "brandon@rumbi.com", Address = "3865 Wasatch Blvd # 300", City = "Salt Lake City", State = "UT", ZipCode = "84109", ClosedSunday = true });
             context.Locations.Add(new Location { LocationName = "Chandler", Phone = "480-785-4537", Email = "chandler@rumbi.com", Address = "885 North 54th St STE #5", City = "Chandler", State = "AZ", ZipCode = "85226", ClosedSunday = false });
             context.Locations.Add(new Location { LocationName = "Mesa", Phone = "480-539-5593", Email = "mesa@rumbi.com", Address = "1902 South Val Vista Dr, STE 101", City = "Mesa", State = "AZ", ZipCode = "85201", ClosedSunday = false });
             context.Locations.Add(new Location { LocationName = "Franklin", Phone = "208-375-5864", Email = "franklin@rumbi.com", Address = "8675 West Franklin Rd", City = "Boise", State = "ID", ZipCode = "83709", ClosedSunday = false });

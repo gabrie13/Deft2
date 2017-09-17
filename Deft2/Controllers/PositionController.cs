@@ -17,8 +17,15 @@ namespace Deft2.Controllers
         private readonly IPositionService _positionService = new PositionService();
 
         // GET: Position
-        public ActionResult Index()
+        // ADDED SEARCH PARAMETER TO INDEX METHOD
+        public ActionResult Index(string searchString)
         {
+            var positions = from p in db.Positions
+                            select p;
+        if (!String.IsNullOrEmpty(searchString))
+        {
+            positions = positions.Where(partial => partial.PositionTitle.Contains(searchString));
+        }
             return View(_positionService.GetAll());
         }
 

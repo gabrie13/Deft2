@@ -4,11 +4,22 @@
     ViewBag.Title = "Position";
 }
 
+<h3 class="alert alert-success">Positions</h3>
+
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
 
-<h3 class="alert alert-success">Positions</h3>
+
+@*  ADDING SEARCHING FUNCTIONALITY TO THE PAGE  *@
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString")
+        <input type="submit" value="Search"/>
+    </p>
+}
+
 <table class="table table-condensed table-hover">
     <thead>
         <tr>

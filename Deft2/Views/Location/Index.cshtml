@@ -9,6 +9,13 @@
 </p>*@
 
 <h3 class="alert alert-success">Locations</h3>
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table table-condensed table-hover">
     <thead>
         <tr>

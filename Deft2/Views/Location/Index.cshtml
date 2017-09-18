@@ -20,7 +20,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LocationName)
+                @Html.ActionLink("Location", "index", new { sortOrder = ViewBag.NameLocationSortParm })(model => model.LocationName)
             </th>
 
             <th>

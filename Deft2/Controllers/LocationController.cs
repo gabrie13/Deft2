@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Deft2.Models;
 using Deft2.Services;
+using PagedList;
 
 namespace Deft2.Controllers
 {
@@ -17,8 +18,36 @@ namespace Deft2.Controllers
         private readonly ILocationService _locationService = new LocationService();
 
         // GET: Location
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.NameLocationSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            var location = from l in db.Locations
+                           select l;
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+             if(!String.IsNullOrEmpty(searchString))
+            {
+                location = location.Where(l => l.LocationName.Contains(searchString));
+            }
+
+             switch(sortOrder)
+            {
+                case "name_desc":
+                    location = location.OrderByDescending(l => l.LocationName);
+                    break;
+                default:
+                    location = location.OrderBy(l => l.LocationName);
+                    break;
+            }
+
             return View(_locationService.GetAll());
         }
 
@@ -121,5 +150,9 @@ namespace Deft2.Controllers
             }
             base.Dispose(disposing);
         }
+
+        int pageSize = 3;
+        int pageNumber = (page ?? 1);
+        return View(locations.ToPagedList(pageNumber, pageList);
     }
 }

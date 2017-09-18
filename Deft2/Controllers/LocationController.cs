@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Deft2.Models;
 using Deft2.Services;
+using PagedList;
 
 namespace Deft2.Controllers
 {
@@ -17,9 +18,50 @@ namespace Deft2.Controllers
         private readonly ILocationService _locationService = new LocationService();
 
         // GET: Location
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            return View(_locationService.GetAll());
+            
+            // /  LOCATIN COLUMN SORTING BY LOCATIONAME AND CITY / //
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.LocationNameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.EmailSortParm = sortOrder == "Email" ? "email_desc" : "Email";
+            var locations = from l in db.Locations
+                            select l;
+
+
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                locations = locations.Where(l => l.LocationName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    locations = locations.OrderByDescending(l => l.LocationName);
+                    break;
+                case "Email":
+                    locations = locations.OrderBy(l => l.City);
+                    break;
+                default:
+                    locations = locations.OrderBy(l => l.LocationName);
+                    break;
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            return View(locations.ToPagedList(pageNumber, pageSize));
+            //return View(_locationService.GetAll());
         }
 
         // GET: Location/Details/5

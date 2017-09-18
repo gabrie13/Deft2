@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<Deft2.Models.LocationViewModel>
+@*@using PagedList.Mvc;*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Location";
@@ -8,12 +10,24 @@
     @Html.ActionLink("Create New", "Create")
 </p>*@
 
+
 <h3 class="alert alert-success">Locations</h3>
+
+@*  FILTER SEARCH BAR *@
+@using (Html.BeginForm("Index", "Location", FormMethod.Get))
+{
+    <p>
+        Find by location: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
 <table class="table table-condensed table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LocationName)
+                @Html.ActionLink("Location", "Index", new { sortOrder = ViewBag.LocationNameSortParm, currentFilter=ViewBag.CurrentFilter })
             </th>
 
             <th>
@@ -25,7 +39,7 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
 
             <th>
@@ -66,3 +80,7 @@
     }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
